@@ -1,24 +1,36 @@
-import { Box, Typography } from "@mui/material";
+import {
+    Box,
+    Divider,
+    Typography
+} from "@mui/material";
 
 export default function Footer(){
 
- return(
+    return(
 
-<Box
-sx={{
-textAlign:"center",
-py:2
-}}
->
+        <>
 
-<Typography variant="body2">
+            <Divider/>
 
-© 2026 HRAPIMS
+            <Box
+                py={2}
+                textAlign="center"
+            >
 
-</Typography>
+                <Typography
+                    variant="body2"
+                    color="text.secondary"
+                >
 
-</Box>
+                    © {new Date().getFullYear()} CHoMA —
+                    Comprehensive Hospital Management App
 
-);
+                </Typography>
+
+            </Box>
+
+        </>
+
+    );
 
 }
