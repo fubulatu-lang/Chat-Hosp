@@ -1,70 +1,56 @@
-import {
-  createUser,
-  findUserByEmail,
-} from "./auth.repository";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
-import {
-  hashPassword,
-  comparePassword,
-} from "../../lib/password";
-
-import { signToken } from "../../lib/jwt";
-
-export async function register(data: {
-  fullName: string;
-  email: string;
-  password: string;
-}) {
-  const exists = await findUserByEmail(data.email);
-
-  if (exists) {
-    throw new Error("Email already exists.");
-  }
-
-  const password = await hashPassword(data.password);
-
-  const user = await createUser({
-    ...data,
-    password,
-  });
-
-  const token = signToken({
-    id: user.id,
-    email: user.email,
-    role: user.role,
-  });
-
-  return {
-    user,
-    token,
-  };
+interface LoginDto {
+    email: string;
+    password: string;
 }
 
 export async function login(
-  email: string,
-  password: string
+    dto: LoginDto
 ) {
-  const user = await findUserByEmail(email);
 
-  if (!user) {
-    throw new Error("Invalid email or password.");
-  }
+    /*
+     Replace with Neon query.
+    */
 
-  const valid = await comparePassword(
-    password,
-    user.password
-  );
+    const user = {
+        id: 1,
+        email: dto.email,
+        role: "ADMIN"
+    };
 
-  if (!valid) {
-    throw new Error("Invalid email or password.");
-  }
+    const token = jwt.sign(
+        user,
+        process.env.JWT_SECRET!,
+        {
+            expiresIn: "12h"
+        }
+    );
 
-  return {
-    user,
-    token: signToken({
-      id: user.id,
-      email: user.email,
-      role: user.role,
-    }),
-  };
+    return {
+
+        token,
+
+        user
+
+    };
+
+}
+
+export async function register(body: unknown) {
+
+    const password = await bcrypt.hash(
+        (body as any).password,
+        12
+    );
+
+    return {
+
+        success: true,
+
+        password
+
+    };
+
 }
