@@ -1,39 +1,13 @@
-export interface ApiResponse<T> {
+export * from "../features/auth/types";
 
-    success: boolean;
+export * from "../features/patients/api/patient.types";
 
-    data: T;
+export * from "../features/employees/api/employee.types";
 
-    message?: string;
+export * from "../features/attendance/api/attendance.types";
 
-}
+export * from "../features/payroll/api/payroll.types";
 
-export interface Pagination {
+export * from "../features/reports/api/report.types";
 
-    page: number;
-
-    pageSize: number;
-
-    total: number;
-
-}
-
-export interface SelectOption {
-
-    label: string;
-
-    value: string | number;
-
-}
-
-export interface Audit {
-
-    createdAt: string;
-
-    updatedAt: string;
-
-    createdBy?: string;
-
-    updatedBy?: string;
-
-}
+export * from "../features/settings/api/settings.types";
